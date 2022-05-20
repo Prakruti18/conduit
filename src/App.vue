@@ -1,13 +1,13 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
 import CHeader from "@/components/CHeader.vue";
-import ArticleHeader from "@/components/ArticleHeader.vue";
+// import ArticleHeader from "@/components/ArticleHeader.vue";
 </script>
 
 <template>
   <CHeader />
   
-  <ArticleHeader />
+  <!-- <ArticleHeader /> -->
 
   <RouterView />
 </template>
