@@ -1,4 +1,31 @@
-<script setup></script>
+<script setup>
+import { reactive, ref } from "@vue/reactivity";
+import axios from "axios";
+
+const form = ref({
+    user: {
+    username: "",
+    email: "",
+    password: "",
+  },
+});
+const submit = () => {
+  axios
+    .post(`https://api.realworld.io/api/users`, {
+      user: {
+        username: form.value.user.username,
+        email: form.value.user.email,
+        password: form.value.user.password,
+      },
+    })
+    .then((response) => {
+      console.log("Form Data", response.data.user);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+</script>
 
 <template>
   <div class="content">
@@ -9,15 +36,21 @@
     <div class="form-content">
       <form>
         <div class="form-field">
-          <input type="text" placeholder="Your Name" />
+          <input type="text" v-model="form.user.username" placeholder="Your Name" />
         </div>
         <div class="form-field">
-          <input type="text" placeholder="Email" />
+          <input type="text" v-model="form.user.email" placeholder="Email" />
         </div>
         <div class="form-field">
-          <input type="password" placeholder="Password" />
+          <input
+            type="password"
+            v-model="form.user.password"
+            placeholder="Password"
+          />
         </div>
-        <div class="form-field"><button type="submit">Sign up</button></div>
+        <div class="form-field">
+          <button @click.prevent="submit()">Sign up</button>
+        </div>
       </form>
     </div>
   </div>
@@ -44,7 +77,19 @@
   font-size: 1.25rem;
   width: 100%;
 }
-.form-field{width: 50%;margin: 0 auto;}
-.form-field:nth-child(4){text-align: right;}
-.form-field button{padding: 15px 25px;background-color: #5cb85c;color: white;font-size: 20px;border: transparent;border-radius: 4px;}
+.form-field {
+  width: 50%;
+  margin: 0 auto;
+}
+.form-field:nth-child(4) {
+  text-align: right;
+}
+.form-field button {
+  padding: 15px 25px;
+  background-color: #5cb85c;
+  color: white;
+  font-size: 20px;
+  border: transparent;
+  border-radius: 4px;
+}
 </style>

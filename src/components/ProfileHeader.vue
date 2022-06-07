@@ -1,20 +1,22 @@
 <script setup>
 import { ref, onMounted } from "@vue/runtime-core";
-import { useRoute } from "vue-router";
+// import { useRoute } from "vue-router";
 import axios from "axios";
 
-const route = useRoute();
+// const route = useRoute();
 const article = ref({});
 
-const slug = ref("");
+// const slug = ref("");
 
 onMounted(() => {
-  slug.value = route.query.slug;
+  // slug.value = route.query.slug;
   axios
-    .get(`https://api.realworld.io/api/articles/${slug.value}`)
+    .get(`https://api.realworld.io/api/articles?author=Gerome`)
     .then((response) => {
-      article.value = response.data.article;
-      console.log("456456456", response.data.article);
+      article.value = response.data.articles;
+      // console.log("Author", response.data);
+      console.log("Author..", response.data.articles);
+      // console.log("123132321132",article.value);
     })
     .catch((e) => {
       console.log(e);
@@ -24,46 +26,47 @@ onMounted(() => {
 
 <template>
   <div class="banner">
-    <div class="banner-content">
-      <div class="title">
-        <h1>{{ article.title }}</h1>
-      </div>
-      <div class="article-info">
-        <a class="img-link" href="#"><img src="../assets/demo-avatar.png" /></a>
-        <div class="info">
-          <a href="#">{{article.author}}</a>
-          <p>Create at {{article.createdAt}}</p>
-        </div>
-        <button class="btn-follow">Follow</button>
-        <button class="btn-post">Favorite Post {{article.favoritesCount}}</button>
-      </div>
+    <div class="article-info" v-for="post of posts" :key="post">
+      <!-- <div class="article-info"> -->
+      <a class="img-link" href="#"><img src="../assets/demo-avatar.png" /></a>
+      <!-- <p>{{ art.author.image }}</p> -->
+      <!-- <p class="author-name">{{ article }}</p> -->
+
+
+      
     </div>
   </div>
+
+
+
+
+
 </template>
 
 <style scoped>
 .banner {
-  background: #333;
-  color: white;
+  background: #f3f3f3;
+  color: black;
   padding: 30px 0;
+  text-align: center;
 }
-.banner-content {
+/* .banner-content {
   width: 1150px;
   margin: 0 auto;
-}
+} */
 h1 {
   font-weight: 500;
   font-size: 3.6rem;
   top: -10px;
 }
-.article-info {
+/* .article-info {
   display: flex;
   align-items: center;
-}
-.img-link {
+} */
+/* .img-link {
   display: flex;
   margin-right: 5px;
-}
+} */
 .img-link:hover {
   background: transparent;
 }

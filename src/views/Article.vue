@@ -2,6 +2,7 @@
 import ArticleHeader from "@/components/ArticleHeader.vue";
 import { ref, onMounted } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import axios from "axios";
 
 const route = useRoute();
@@ -16,7 +17,7 @@ onMounted(() => {
     .get(`https://api.realworld.io/api/articles/${slug.value}`)
     .then((response) => {
       article.value = response.data.article;
-      console.log("456456456", response.data.article);
+      console.log("Data", response.data.article);
     })
     .catch((e) => {
       console.log(e);
@@ -33,6 +34,20 @@ onMounted(() => {
       console.log(e);
     });
 });
+
+
+const router = useRouter();
+
+const author_name = (arg) => {
+  console.log("Author Name", arg);
+  router.push({
+    name: "profile",
+    query: { arg },
+  });
+  // console.log("Hello World");
+};
+
+
 </script>
 
 <template>
@@ -48,9 +63,9 @@ onMounted(() => {
       <div class="article-info">
         <a class="img-link" href="#"><img src="../assets/demo-avatar.png" /></a>
         <div class="info">
-          <a href="#">
+          <p class="author" @click="author_name(article.author.username)">
             {{ article.author }}
-          </a>
+          </p>
           <p>Create at {{ article.createdAt }}</p>
         </div>
         <button class="btn-follow">Follow</button>
@@ -128,7 +143,7 @@ onMounted(() => {
   margin-right: 20px;
   line-height: 16px;
 }
-.info a {
+.author {
   color: #5cb85c;
 }
 .info a:hover {
